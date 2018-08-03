@@ -182,11 +182,11 @@ In `ruffus` we do this with something called _decorators_. Decorators _decorate_
 
 The decorator @transform tells ruffus that the following function is mean to transform one file into another. In its most basic form, it takes 3 parameters:
 
-> _input:_ Specifies how to find the files that we would like to use as input files to our function
+  _input:_ Specifies how to find the files that we would like to use as input files to our function
 
-> _filter:_ Specifies how we would like to find the "base" of the filename
+  _filter:_ Specifies how we would like to find the "base" of the filename
 
-> _output:_ Specifies what to do with the "base" in order to get the output name
+  _output:_ Specifies what to do with the "base" in order to get the output name
 
 There are several ways in which we can specify the filter and output parameters, but the easiest way is to tell ruffus to remove an extension and add a new one. Thus, if we called transform like so:
 
