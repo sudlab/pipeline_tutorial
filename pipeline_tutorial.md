@@ -1,5 +1,4 @@
 
-
 ## Introduction
 
 This tutorial is a step-by-step guide to understanding and writing the sorts of pipelines that we regularly use. It is aimed at people who have been in the lab for maybe a little longer than a month.
@@ -47,7 +46,7 @@ Finally, we are also going to assume that your computational environment is full
 
   
 
-## Lession 1: Running external commands from python with P.run()
+## Lession 1: Running external commands from python with P.run(statement)
 
   
 
@@ -84,17 +83,17 @@ Now rewrite your line so that it saves it to a file called test1.nlines. Again, 
 Now we would like to automate this with a python script. Here is where the first facility from the CGATPipelines module comes in useful. Use your favorite text editor to create a python script. The script should start with the following lines.
 
     # This line just imports the correct module
-    import CGATPipelines.Pipeline as P
+    import CGATCore.Pipeline as P
     
     # This line get the configuration. Don't worry about it for now.
-    PARAMS=P.getParameters()
+    PARAMS=P.get_parameters()
 
     # Normally "Jobs" in CGATPiplines are executed on remote computers
     # that are part of the cluster. Setting to_cluster to false
     # makes it run things on your interactive session.
     to_cluster = False
 
-Now add a line to the script that defines a variable called `statement` , which contains the command you used above on the command line to count the lines in `test1.fastq` and outputs to `test1.nlines`, but this time does it with `test2`. Finish off your script with a call to `P.run()`. `P.run()` tells the computer to look for a variable called `statement`, and run the contents of it.
+Now add a line to the script that defines a variable called `statement` , which contains the command you used above on the command line to count the lines in `test1.fastq` and outputs to `test1.nlines`, but this time does it with `test2`. Finish off your script with a call to `P.run(statement)`. `P.run(statement)` tells the computer to look for a variable called `statement`, and run the contents of it.
 
 Execute your python script and have a look at the results. For example, if you had called your script `lesson1.py`, you would type:
 
@@ -116,7 +115,7 @@ Okay, so that is now doing what we wanted, but why use 5 lines of python to do w
 
     statement = "zcat %(infile)s | wc -l > %(outfile)s"
 
-Now when we do P.run(), the script will look for variables called infile and outfile and substitute their values into the statement. Thus if we added the following to the script before P.run() is executed:
+Now when we do P.run(statement), the script will look for variables called infile and outfile and substitute their values into the statement. Thus if we added the following to the script before P.run(statement) is executed:
 
     infile = "test3.fastq.gz"
     outfile = "test3.nlines"
@@ -124,10 +123,10 @@ Now when we do P.run(), the script will look for variables called infile and out
 So that the total script was:
 
     # This line just imports the correct module`
-    import CGATPipelines.Pipeline as P
+    import CGATCore.Pipeline as P
     
     # This line get the configuration. Don't worry about it for now.
-    PARAMS=P.getParameters()  
+    PARAMS=P.get_parameters()  
     
     # Normally "Jobs" in CGATPiplines are executed on remote computers
     # that are part of the cluster. Setting to_cluster to false
@@ -137,7 +136,7 @@ So that the total script was:
     infile = "test3.fastq.gz"
     outfile = "test3.nlines" 
     
-    P.run()
+    P.run(statement)
 
 The line that was run would be equivalent to typing:
 
@@ -146,10 +145,10 @@ The line that was run would be equivalent to typing:
 This becomes useful when, instead of manually defining infile and outfile, they are defined as inputs to a function. See if you can complete the following script by defining a function called count_lines that will mean the following script counts the lines in test3.fastq.gz, test4.fastq.gz and test5.fastq.gz and puts the results in test3.nlines, test4.nlines and test5.nlines
 
     # This line just imports the correct module
-    import CGATPipelines.Pipeline as P
+    import CGATCore.Pipeline as P
 
     # This line gets the configuration. Don't worry about it for now.
-    PARAMS=P.getParameters()
+    PARAMS=P.get_parameters()
    
     #### Your function def line here #####
     
@@ -328,28 +327,24 @@ So far what we have is a convenient way to run a script on many different files.
 
 Use the following template to add a function to your python program after the count_lines function, but before the `P.main()` call. It should:
 
--   Loads a file given by the name infile
--   Extracts the number stored in it
--   Divides that number by 4
--   Writes the name of the file, followed by a tab character, followed by the number of reads to a file whose name is stored in outfile.
-
-  
-
-`
+-  Loads a file given by the name infile
+-  Extracts the number stored in it
+-  Divides that number by 4
+-  Writes the name of the file, followed by a tab character, followed by the number of reads to a file whose name is stored in outfile.
 
     def convert_to_nreads(infile, outfile):
-    ''' This function converts the number of lines in a file to a number    
+    ''' This function converts the number of lines in a file to a number
     of reads. It also labels this number with the sample name'''
     
-    infile_handle = open(infile)
-    outfile_handle = open(outfile, "w")
+        infile_handle = open(infile)
+        outfile_handle = open(outfile, "w")
     
-    #
-    # Complete the function
-    #
+        #
+        # Complete the function
+        #
     
-    outfile_handle.write(sample_name + "\t" + str(nreads))
-    outfile_handle.close()
+        outfile_handle.write(sample_name + "\t" + str(nreads))
+        outfile_handle.close()
 
   
 

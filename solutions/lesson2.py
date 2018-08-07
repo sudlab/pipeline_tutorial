@@ -1,8 +1,8 @@
 # This line just imports the correct module
-import CGATPipelines.Pipeline as P
+import CGATCore.Pipeline as P
 
 # This line get the configuration. Don't worry about it for now.
-PARAMS=P.getParameters()
+PARAMS=P.get_parameters()
 
 
 def count_lines(infile, outfile):
@@ -11,7 +11,7 @@ def count_lines(infile, outfile):
     to_cluster = False
 
     statement = '''zcat %(infile)s | wc -l > %(outfile)s'''
-    P.run()
+    P.run(statement)
 
 
 count_lines("test3.fastq.gz", "test3.nlines")
