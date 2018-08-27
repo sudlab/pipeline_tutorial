@@ -1,4 +1,5 @@
 
+
 ## Introduction
 
 This tutorial is a step-by-step guide to understanding and writing the sorts of pipelines that we regularly use. It is aimed at people who have been in the lab for maybe a little longer than a month.
@@ -83,10 +84,10 @@ Now rewrite your line so that it saves it to a file called test1.nlines. Again, 
 Now we would like to automate this with a python script. Here is where the first facility from the CGATPipelines module comes in useful. Use your favorite text editor to create a python script. The script should start with the following lines.
 
     # This line just imports the correct module
-    import CGATCore.Pipeline as P
+    import CGATCorePipelines.Pipeline as P
     
     # This line get the configuration. Don't worry about it for now.
-    PARAMS=P.get_parameters()
+    PARAMS=P.get_pParameters()
 
     # Normally "Jobs" in CGATPiplines are executed on remote computers
     # that are part of the cluster. Setting to_cluster to false
@@ -123,10 +124,10 @@ Now when we do P.run(statement), the script will look for variables called infil
 So that the total script was:
 
     # This line just imports the correct module`
-    import CGATCore.Pipeline as P
+    import CGATCorePipelines.Pipeline as P
     
     # This line get the configuration. Don't worry about it for now.
-    PARAMS=P.get_parameters()  
+    PARAMS=P.get_pParameters()  
     
     # Normally "Jobs" in CGATPiplines are executed on remote computers
     # that are part of the cluster. Setting to_cluster to false
@@ -145,10 +146,10 @@ The line that was run would be equivalent to typing:
 This becomes useful when, instead of manually defining infile and outfile, they are defined as inputs to a function. See if you can complete the following script by defining a function called count_lines that will mean the following script counts the lines in test3.fastq.gz, test4.fastq.gz and test5.fastq.gz and puts the results in test3.nlines, test4.nlines and test5.nlines
 
     # This line just imports the correct module
-    import CGATCore.Pipeline as P
+    import CGATCorePipelines.Pipeline as P
 
     # This line gets the configuration. Don't worry about it for now.
-    PARAMS=P.get_parameters()
+    PARAMS=P.get_pParameters()
    
     #### Your function def line here #####
     
@@ -327,20 +328,25 @@ So far what we have is a convenient way to run a script on many different files.
 
 Use the following template to add a function to your python program after the count_lines function, but before the `P.main()` call. It should:
 
--  Loads a file given by the name infile
--  Extracts the number stored in it
--  Divides that number by 4
--  Writes the name of the file, followed by a tab character, followed by the number of reads to a file whose name is stored in outfile.
+-   Loads a file given by the name infile
+-   Extracts the number stored in it
+-   Divides that number by 4
+-   Writes the name of the file, followed by a tab character, followed by the number of reads to a file whose name is stored in outfile.
+
+  
+
+`
 
     def convert_to_nreads(infile, outfile):
-    ''' This function converts the number of lines in a file to a number
+    ''' This function converts the number of lines in a file to a number    
     of reads. It also labels this number with the sample name'''
     
         infile_handle = open(infile)
         outfile_handle = open(outfile, "w")
     
         #
-        # Complete the function
+    #
+    # Complete the function
         #
     
         outfile_handle.write(sample_name + "\t" + str(nreads))
@@ -499,5 +505,5 @@ and the contents of test1.nlines like this:
 eyJoaXN0b3J5IjpbLTc0MDMxMTk3Ml19
 -->
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTI2OTYwMTk1OF19
+eyJoaXN0b3J5IjpbMTA2MzEwNjQxMiwtMjY5NjAxOTU4XX0=
 -->
